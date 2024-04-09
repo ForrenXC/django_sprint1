@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import Http404
 
 posts = [
     {
@@ -54,8 +55,9 @@ def post_detail(request, id):
     template = "blog/detail.html"
     for post in posts:
         if post['id'] == id:
-            context = {'post': posts[id]}
-    return render(request, template, context)
+            context = {'post': post}
+            return render(request, template, context)
+    raise Http404("Запись не найдена!")
 
 
 def category_posts(request, category_slug):
